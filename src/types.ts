@@ -3,6 +3,6 @@ export interface Pie {
     name: string;
     crust_type: string;
     filling: string;
-    is_basked?: boolean;
+    is_baked?: boolean;
     slice_count?: number;
 }
