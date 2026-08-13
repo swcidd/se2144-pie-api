@@ -56,13 +56,10 @@ router.put("/:id", async (req: Request, res: Response) => {
 //DELETE
 router.delete("/:id", async (req: Request, res: Response) => {
   const { id } = req.params;
-  const { name, crust_type, filling, is_baked, slice_count }: Pie = req.body;
   try {
     const result = await pool.query(
-      `DELETE FROM pies
-       WHERE id = $1
-       RETURNING *`,
-      [name, crust_type, filling, is_baked, slice_count, id],
+      `DELETE FROM pies WHERE id = $1 RETURNING *`,
+      [id],
     );
     if (result.rows.length === 0) {
       return res.status(404).json({ error: "Pie not found" });
@@ -72,13 +69,5 @@ router.delete("/:id", async (req: Request, res: Response) => {
     res.status(500).json({ error: (error as Error).message });
   }
 });
-
-//GET
-
-router.get("/:id", async (req: Request, res: Response) => {
-  // access the db
-  const { id } = req.params;
-
-};
 
 export default router;
