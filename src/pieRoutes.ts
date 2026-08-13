@@ -60,7 +60,6 @@ router.delete("/:id", async (req: Request, res: Response) => {
   try {
     const result = await pool.query(
       `DELETE FROM pies
-       SET name = $1, crust_type = $2, filling = $3, is_baked = $4, slice_count = $5
        WHERE id = $1
        RETURNING *`,
       [name, crust_type, filling, is_baked, slice_count, id],
@@ -73,5 +72,13 @@ router.delete("/:id", async (req: Request, res: Response) => {
     res.status(500).json({ error: (error as Error).message });
   }
 });
+
+//GET
+
+router.get("/:id", async (req: Request, res: Response) => {
+  // access the db
+  const { id } = req.params;
+
+};
 
 export default router;
