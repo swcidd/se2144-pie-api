@@ -70,4 +70,27 @@ router.delete("/:id", async (req: Request, res: Response) => {
   }
 });
 
+//GET
+// GET
+router.get("/", async (req: Request, res: Response) => {
+  // access the db
+  const { search } = req.query;
+
+  try {
+    let queryText = "SELECT * FROM pies";
+    const queryParams: (string | number)[] = [];
+
+    if (search && typeof search === "string") {
+      queryText += " WHERE name ILIKE $1";
+      queryParams.push(`%${search}%`);
+    }
+
+    queryText += " ORDER BY id ASC";
+
+    const result = await pool.query<Pie>(queryText, queryParams);
+    res.json(result.rows);
+  } catch (error) {
+    res.status(500).json({ error: (error as Error).message });
+  }
+});
 export default router;
